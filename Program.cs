@@ -11,7 +11,19 @@ public class Program
           opt.UseInMemoryDatabase("Users"));
       builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+      /*Swagger*/
+      builder.Services.AddEndpointsApiExplorer();
+      builder.Services.AddSwaggerGen();
+
+
       var app = builder.Build();
+
+      // Configure the HTTP request pipeline.
+      if (app.Environment.IsDevelopment())
+      {
+          app.UseSwagger();
+          app.UseSwaggerUI();
+      }
 
       var usersRouter = app.MapGroup("/users");
       var authRouter = app.MapGroup("/auth");

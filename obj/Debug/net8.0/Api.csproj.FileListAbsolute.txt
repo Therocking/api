@@ -30,3 +30,9 @@
 /home/therocking/Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll
 /home/therocking/Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
 /home/therocking/Api/obj/Debug/net8.0/Api.csproj.CopyComplete
+/home/therocking/Api/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
+/home/therocking/Api/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/home/therocking/Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/therocking/Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/therocking/Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/therocking/Api/obj/Debug/net8.0/Api.MvcApplicationPartsAssemblyInfo.cs
