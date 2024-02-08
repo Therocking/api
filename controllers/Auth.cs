@@ -1,36 +1,54 @@
-using Microsoft.EntityFrameworkCore;
 using Users.Models;
 using Helpers;
+using Auth.Services;
 
 namespace Users.Controller;
 
 public class AuthController
 {
-  public static async Task<IResult> Login(LoginUserDto loginDto, UserDb db)
+  private AuthService _service;
+
+  public AuthController(AuthService service)
   {
-    var user = await db.Users
-      .SingleAsync(u => u.Mail == loginDto.Mail);
-
-    if(user is null) return TypedResults.NotFound("User or password incorrect");
-
-    if(user.Pass != HashPass.GetSHA256Hash(loginDto.Pass)) return TypedResults.BadRequest("User or password incorrect");
-
-    var userToSend = new UserDto(user);
-
-    return TypedResults.Ok(userToSend);
+    _service = service;
   }
 
-  public static async Task<IResult> Register(RegisterUserDto registerDto, UserDb db)
+  public async Task<IResult> Login(LoginUserDto loginDto, UserDb db)
   {
-    var passHashed = HashPass.GetSHA256Hash(registerDto.Pass);
+    try
+    {
+       var user = await _service.Login(loginDto, db);
 
-    var newUser = new User(registerDto.Name, registerDto.Mail, passHashed);
+      if(user.Pass != HashPass.GetSHA256Hash(loginDto.Pass)) return TypedResults.BadRequest("User or password incorrect");
 
-    db.Users.Add(newUser);
-    await db.SaveChangesAsync();
+      var userToSend = new UserDto(user);
 
-    var user = new UserDto(newUser);
+      return TypedResults.Ok(userToSend); 
+    }
+    catch (System.Exception e)
+    {
+      if(e.ToString() == "Internal server error") return TypedResults.StatusCode(500);
+      return TypedResults.NotFound(e);
+    }
+    
+  }
 
-    return TypedResults.Created($"/users/{user.Id}", user);
+  public async Task<IResult> Register(RegisterUserDto registerDto, UserDb db)
+  {
+    try
+    {
+        registerDto.Pass = HashPass.GetSHA256Hash(registerDto.Pass);
+
+        var newUser = await _service.Register(registerDto, db);
+
+        var user = new UserDto(newUser);
+
+        return TypedResults.Created($"/users/{user.Id}", user);
+    }
+    catch (System.Exception)
+    {
+      return TypedResults.StatusCode(500);
+    }
+
   }
 }

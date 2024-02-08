@@ -3,6 +3,8 @@ using Users.Models;
 using Users.Repository;
 using Users.Services;
 using Users.Controller;
+using Auth.Services;
+using Auth.Repository;
 
 public class Program
 {
@@ -33,9 +35,15 @@ public class Program
       app.MapGet("/", () => "Hello World!");
 
       /*DI*/
+      // Users
       var userRepository = new UserRepository();
       var userService = new UserService(userRepository);
       var userController = new UserController(userService);
+
+      // Auth
+      var authRepository = new AuthRepository();
+      var authSerice = new AuthService(authRepository);
+      var authController = new AuthController(authSerice);
 
       /* User routes */
       usersRouter.MapGet("/", userController.GetAll);
@@ -44,8 +52,8 @@ public class Program
       usersRouter.MapDelete("/{id}", userController.Delete);
 
       /* Auth routes */
-      authRouter.MapPost("/login", AuthController.Login);
-      authRouter.MapPost("/register", AuthController.Register);
+      authRouter.MapPost("/login", authController.Login);
+      authRouter.MapPost("/register", authController.Register);
 
       app.Run();
    }
