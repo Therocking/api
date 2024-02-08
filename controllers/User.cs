@@ -1,47 +1,69 @@
-using Microsoft.EntityFrameworkCore;
 using Users.Models;
+using Users.Services;
 
 namespace Users.Controller;
 
 public class UserController
 {
-  public static async Task<IResult> GetAll(UserDb db)
-  {
-    var users = await db.Users.Select(x => new UserDto(x)).ToListAsync();
-    return TypedResults.Ok(users);
+  private UserService _service;
+
+  public UserController(UserService service) {
+    _service = service;
   }
 
-  public static async Task<IResult> GetById(int id, UserDb db)
+  public  async Task<IResult> GetAll(UserDb db)
   {
-    return await db.Users.FindAsync(id)
-      is User user
-        ? TypedResults.Ok(new UserDto(user))
-        : TypedResults.NotFound();
+    try
+    {
+      var user = await _service.GetAll(db);
+      return TypedResults.Ok(user);
+    }
+    catch (System.Exception e)
+    {
+      return TypedResults.NotFound(e);
+    }
   }
 
-  public static async Task<IResult> Update(int id, UpdateUserDto updateDto, UserDb db)
+  public  async Task<IResult> GetById(int id, UserDb db)
   {
-    var user = await db.Users.FindAsync(id);
+    try
+    {
+       var user = await _service.GetById(id, db);
 
-    if(user is null) return TypedResults.NotFound();
-    
-    user.Name = updateDto.Name;
-    user.Pass = updateDto.Pass;
-
-    await db.SaveChangesAsync();
-
-    return TypedResults.NoContent();
+       return TypedResults.Ok(user);
+    }
+    catch (System.Exception e)
+    {
+        return TypedResults.NotFound(e);
+    }
   }
 
-  public static async Task<IResult> Delete(int id, UserDb db)
+  public  async Task<IResult> Update(int id, UpdateUserDto updateDto, UserDb db)
   {
-    var user = await db.Users.FindAsync(id);
+    try
+    {
+       var user =  await _service.Update(id, updateDto, db);
 
-    if(user is null) return TypedResults.NotFound();
+      return TypedResults.Ok(user);
+    }
+    catch (System.Exception e)
+    {
+      return TypedResults.NotFound(e);
+    }
+  }
 
-    db.Remove(user);
-    await db.SaveChangesAsync();
+  public  async Task<IResult> Delete(int id, UserDb db)
+  {
+    try
+    {
+       var user = await _service.Delete(id, db);
 
-    return TypedResults.NoContent();
+      return TypedResults.Ok(user); 
+    }
+    catch (System.Exception e)
+    {
+      return TypedResults.NotFound(e);
+    }
+
   }
 }

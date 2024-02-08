@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Users.Models;
+using Users.Repository;
+using Users.Services;
 using Users.Controller;
 
 public class Program
@@ -30,11 +32,16 @@ public class Program
 
       app.MapGet("/", () => "Hello World!");
 
+      /*DI*/
+      var userRepository = new UserRepository();
+      var userService = new UserService(userRepository);
+      var userController = new UserController(userService);
+
       /* User routes */
-      usersRouter.MapGet("/", UserController.GetAll);
-      usersRouter.MapGet("/{id}", UserController.GetById);
-      usersRouter.MapPut("/{id}", UserController.Update);
-      usersRouter.MapDelete("/{id}", UserController.Delete);
+      usersRouter.MapGet("/", userController.GetAll);
+      usersRouter.MapGet("/{id}", userController.GetById);
+      usersRouter.MapPut("/{id}", userController.Update);
+      usersRouter.MapDelete("/{id}", userController.Delete);
 
       /* Auth routes */
       authRouter.MapPost("/login", AuthController.Login);

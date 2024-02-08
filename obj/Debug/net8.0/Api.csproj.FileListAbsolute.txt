@@ -36,3 +36,4 @@
 /home/therocking/Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /home/therocking/Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /home/therocking/Api/obj/Debug/net8.0/Api.MvcApplicationPartsAssemblyInfo.cs
+/home/therocking/Api/obj/Debug/net8.0/Api.sourcelink.json
