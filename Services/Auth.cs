@@ -1,22 +1,23 @@
 using Auth.Repository;
+using Helpers;
 using Users.Models;
 
 namespace Auth.Services;
 
 public class AuthService
 {
-  private AuthRepository _repository; 
+  private IAuthRepository _repository; 
 
-  public AuthService(AuthRepository repository)
+  public AuthService(IAuthRepository repository)
   {
     _repository = repository;
   }
 
-  public async Task<User> Login(LoginUserDto loginDto, UserDb db)
+  public async Task<User> Login(LoginUserDto loginDto)
   {
     try
     {
-        var user = await _repository.Login(loginDto, db);
+        var user = await _repository.Login(loginDto);
 
        if(user is null) throw new DllNotFoundException("User not found");
 
@@ -29,14 +30,14 @@ public class AuthService
     }
   }
 
-  public async Task<User> Register(RegisterUserDto registerDto, UserDb db)
+  public async Task<User> Register(RegisterUserDto registerDto)
   {
     try
     {
-        var newUser = new User(registerDto.Name, registerDto.Mail, registerDto.Pass);
+        registerDto.Pass = HashPass.GetSHA256Hash(registerDto.Pass);
 
-        db.Users.Add(newUser);
-        await db.SaveChangesAsync();
+        var newUser = await _repository.Register(registerDto);
+
         return newUser;
     }
     catch (System.Exception)

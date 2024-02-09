@@ -5,17 +5,17 @@ namespace Users.Services;
 
 public class UserService
 {
-  private UserRepository _repository;
+  private IUserRepository _repository;
 
-  public UserService(UserRepository repository) {
+  public UserService(IUserRepository repository) {
     _repository = repository;
   }
 
-  public async Task<List<UserDto>> GetAll(UserDb db)
+  public async Task<List<UserDto>> GetAll()
   {
     try
     {
-       var users = await _repository.GetAllUsers(db);
+       var users = await _repository.GetAllUsers();
        var userDto = users.Select(user => new UserDto(user)).ToList();
        return userDto;
     }
@@ -25,11 +25,11 @@ public class UserService
     }
   }
 
-  public  async Task<UserDto> GetById(int id, UserDb db)
+  public  async Task<UserDto> GetById(int id)
   {
     try
     {
-       var user = await _repository.GetOneUser(id, db);
+       var user = await _repository.GetOneUser(id);
 
        if(user is null) throw new DllNotFoundException("User not found");
 
@@ -42,11 +42,11 @@ public class UserService
     }
   }
 
-  public  async Task<UserDto> Update(int id, UpdateUserDto updateDto, UserDb db)
+  public  async Task<UserDto> Update(int id, UpdateUserDto updateDto)
   {
     try
     {
-       var user =  await _repository.UpdateUser(id, updateDto, db);
+       var user =  await _repository.UpdateUser(id, updateDto);
 
        if(user is null) throw new DllNotFoundException("User not found");
 
@@ -59,11 +59,11 @@ public class UserService
     }
   }
 
-  public  async Task<UserDto> Delete(int id, UserDb db)
+  public  async Task<UserDto> Delete(int id)
   {
     try
     {
-       var user = await _repository.DeleteUser(id, db);
+       var user = await _repository.DeleteUser(id);
 
        if(user is null) throw new DllNotFoundException("User not found");
 

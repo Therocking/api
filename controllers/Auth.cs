@@ -13,11 +13,11 @@ public class AuthController
     _service = service;
   }
 
-  public async Task<IResult> Login(LoginUserDto loginDto, UserDb db)
+  public async Task<IResult> Login(LoginUserDto loginDto)
   {
     try
     {
-       var user = await _service.Login(loginDto, db);
+       var user = await _service.Login(loginDto);
 
       if(user.Pass != HashPass.GetSHA256Hash(loginDto.Pass)) return TypedResults.BadRequest("User or password incorrect");
 
@@ -33,13 +33,13 @@ public class AuthController
     
   }
 
-  public async Task<IResult> Register(RegisterUserDto registerDto, UserDb db)
+  public async Task<IResult> Register(RegisterUserDto registerDto)
   {
     try
     {
         registerDto.Pass = HashPass.GetSHA256Hash(registerDto.Pass);
 
-        var newUser = await _service.Register(registerDto, db);
+        var newUser = await _service.Register(registerDto);
 
         var user = new UserDto(newUser);
 

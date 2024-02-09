@@ -13,12 +13,13 @@ public class Program
       var builder = WebApplication.CreateBuilder(args);
       builder.Services.AddDbContext<UserDb>(opt => 
           opt.UseInMemoryDatabase("Users"));
+      builder.Services.AddScoped<IUserRepository, UserRepository>();
+      builder.Services.AddScoped<IAuthRepository, AuthRepository>();
       builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
       /*Swagger*/
       builder.Services.AddEndpointsApiExplorer();
       builder.Services.AddSwaggerGen();
-
 
       var app = builder.Build();
 
@@ -34,26 +35,31 @@ public class Program
 
       app.MapGet("/", () => "Hello World!");
 
-      /*DI*/
-      // Users
-      var userRepository = new UserRepository();
-      var userService = new UserService(userRepository);
-      var userController = new UserController(userService);
+      // Mueve la lógica de resolución dentro del ámbito creado por CreateScope()
+      using(var scope = app.Services.CreateScope())
+      { 
+        var services = scope.ServiceProvider;
 
-      // Auth
-      var authRepository = new AuthRepository();
-      var authSerice = new AuthService(authRepository);
-      var authController = new AuthController(authSerice);
+        // Users
+        var userRepository = services.GetRequiredService<IUserRepository>();
+        var userService = new UserService(userRepository);
+        var userController = new UserController(userService);
 
-      /* User routes */
-      usersRouter.MapGet("/", userController.GetAll);
-      usersRouter.MapGet("/{id}", userController.GetById);
-      usersRouter.MapPut("/{id}", userController.Update);
-      usersRouter.MapDelete("/{id}", userController.Delete);
+        // Auth
+        var authRepository = services.GetRequiredService<IAuthRepository>();
+        var authSerice = new AuthService(authRepository);
+        var authController = new AuthController(authSerice);
 
-      /* Auth routes */
-      authRouter.MapPost("/login", authController.Login);
-      authRouter.MapPost("/register", authController.Register);
+        /* User routes */
+        usersRouter.MapGet("/", userController.GetAll);
+        usersRouter.MapGet("/{id}", userController.GetById);
+        usersRouter.MapPut("/{id}", userController.Update);
+        usersRouter.MapDelete("/{id}", userController.Delete);
+
+        /* Auth routes */
+        authRouter.MapPost("/login", authController.Login);
+        authRouter.MapPost("/register", authController.Register);
+      }
 
       app.Run();
    }

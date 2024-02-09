@@ -11,11 +11,11 @@ public class UserController
     _service = service;
   }
 
-  public  async Task<IResult> GetAll(UserDb db)
+  public async Task<IResult> GetAll()
   {
     try
     {
-      var user = await _service.GetAll(db);
+      var user = await _service.GetAll();
       return TypedResults.Ok(user);
     }
     catch (System.Exception e)
@@ -24,11 +24,11 @@ public class UserController
     }
   }
 
-  public  async Task<IResult> GetById(int id, UserDb db)
+  public  async Task<IResult> GetById(int id)
   {
     try
     {
-       var user = await _service.GetById(id, db);
+       var user = await _service.GetById(id);
 
        return TypedResults.Ok(user);
     }
@@ -38,11 +38,11 @@ public class UserController
     }
   }
 
-  public  async Task<IResult> Update(int id, UpdateUserDto updateDto, UserDb db)
+  public  async Task<IResult> Update(int id, UpdateUserDto updateDto)
   {
     try
     {
-       var user =  await _service.Update(id, updateDto, db);
+       var user =  await _service.Update(id, updateDto);
 
       return TypedResults.Ok(user);
     }
@@ -52,11 +52,11 @@ public class UserController
     }
   }
 
-  public  async Task<IResult> Delete(int id, UserDb db)
+  public  async Task<IResult> Delete(int id)
   {
     try
     {
-       var user = await _service.Delete(id, db);
+       var user = await _service.Delete(id);
 
       return TypedResults.Ok(user); 
     }
