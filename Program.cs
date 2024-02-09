@@ -41,12 +41,12 @@ public class Program
         var services = scope.ServiceProvider;
 
         // Users
-        var userRepository = services.GetRequiredService<IUserRepository>();
+        var userRepository = app.Services.GetRequiredService<IUserRepository>();
         var userService = new UserService(userRepository);
         var userController = new UserController(userService);
 
         // Auth
-        var authRepository = services.GetRequiredService<IAuthRepository>();
+        var authRepository = app.Services.GetRequiredService<IAuthRepository>();
         var authSerice = new AuthService(authRepository);
         var authController = new AuthController(authSerice);
 
