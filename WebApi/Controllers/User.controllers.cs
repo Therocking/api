@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dtos.Users;
+using WebApi.Errors;
 using WebApi.Interfaces.Services;
 
 namespace WebApi.Controllers
@@ -24,9 +25,9 @@ namespace WebApi.Controllers
 
                 return Ok(user);
             }
-            catch (Exception ex)
+            catch (HandleErrors ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(ex.StatusCode, ex.Msg);
             }
         }
 
@@ -39,9 +40,9 @@ namespace WebApi.Controllers
 
                 return Ok(users);
             }
-            catch (Exception ex)
+            catch (HandleErrors ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(ex.StatusCode, ex.Msg);
             }
         }
 
@@ -54,9 +55,9 @@ namespace WebApi.Controllers
 
                 return Ok(user);
             }
-            catch (Exception ex)
+            catch (HandleErrors ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(ex.StatusCode, ex.Msg);
             }
         }
 
@@ -69,9 +70,9 @@ namespace WebApi.Controllers
 
                 return Ok(user);
             }
-            catch (Exception ex)
+            catch (HandleErrors ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(ex.StatusCode, ex.Msg);
             }
         }
 
@@ -84,9 +85,9 @@ namespace WebApi.Controllers
 
                 return Ok(user);
             }
-            catch (Exception)
+            catch (HandleErrors ex)
             {
-                return NotFound("User not found");
+                return StatusCode(ex.StatusCode, ex.Msg);
             }
         }
     }

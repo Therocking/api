@@ -1,5 +1,6 @@
 ﻿using WebApi.Dtos.Users;
 using WebApi.Entities;
+using WebApi.Errors;
 using WebApi.Interfaces.Repositories;
 using WebApi.Interfaces.Services;
 
@@ -16,73 +17,117 @@ namespace WebApi.Services
 
         public  async Task<UserDto> Create(RegisterUserDto userDto)
         {
-            var newUser = new User
+            try
             {
-                Name = userDto.Name,
-                Email = userDto.Email,
-                Age = userDto.Age,
-                Password = userDto.Password,
-            };
+                var newUser = new User
+                {
+                    Name = userDto.Name,
+                    Email = userDto.Email,
+                    Age = userDto.Age,
+                    Password = userDto.Password,
+                };
 
-            await _repository.Create(newUser);
+                await _repository.Create(newUser);
 
-            return new UserDto
+                return new UserDto
+                {
+                    Id = newUser.Id,
+                    Name = newUser.Name,
+                    Email = newUser.Email,
+                    Age = newUser.Age,
+                };
+            }
+            catch (Exception)
             {
-                Id = newUser.Id,
-                Name = newUser.Name,
-                Email = newUser.Email,
-                Age = newUser.Age,
-            };
+                throw HandleErrors.InternalError("Internal error");
+            }
         }
 
         public async Task<UserDto> Delete(int id)
         {
-            var user = await _repository.GetById(id);
-
-            await _repository.Delete(user);
-
-            return new UserDto
+            try
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Age = user.Age,
-            };
+                var user = await _repository.GetById(id);
+                if (user is null) throw HandleErrors.NotFound("User not found");
+
+                await _repository.Delete(user);
+
+                return new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Age = user.Age,
+                };
+            }
+            catch (Exception ex)
+            {
+                if(ex is HandleErrors) throw;
+
+                throw HandleErrors.InternalError("Internal error");
+            }
         }
 
         public async Task<List<User>> GetAll()
         {
-            var users = await _repository.GetAll();
+            try
+            {
+                var users = await _repository.GetAll();
 
-            return users;
+                return users;
+            }
+            catch (Exception)
+            {
+                throw HandleErrors.InternalError("Internal error");
+            }
         }
 
         public async Task<UserDto> GetById(int id)
         {
-            var user = await _repository.GetById(id);
-
-            return new UserDto
+            try
             {
-                Id = id,
-                Name = user.Name,
-                Email = user.Email,
-                Age = user.Age,
-            };
+                var user = await _repository.GetById(id);
+                if (user is null) throw HandleErrors.NotFound("User not found");
+
+                return new UserDto
+                {
+                    Id = id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Age = user.Age,
+                };
+            }
+            catch (Exception ex)
+            {
+                if(ex is HandleErrors) throw;
+
+                throw HandleErrors.InternalError("Internal error");
+            }
         }
 
         public async Task<UserDto> Update(int id, UpdateUserDto userDto)
         {
-            var user = await _repository.GetById(id);
-
-            await _repository.Update(id, user);
-
-            return new UserDto
+            try
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Age = user.Age,
-            };
+                var user = await _repository.GetById(id);
+                if (user is null) throw HandleErrors.NotFound("User not found");
+
+                await _repository.Update(id, user);
+
+                return new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Age = user.Age,
+                };
+            }
+            catch (Exception ex)
+            {
+                if (ex is HandleErrors) throw;
+
+                throw HandleErrors.InternalError("Internal error");
+            }
         }
     }
 }
