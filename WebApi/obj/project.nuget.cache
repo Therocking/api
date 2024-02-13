@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "4tHwja8ODC5tboCdrT4w46xAWdvnAQCqLKhoka5FEUIfO3nJ1eCW339zQWf9e1nS/kUeYbg0wYmIsb9U38GyGA==",
+  "dgSpecHash": "iZs9nkbI0L86HZ/vhcluOHpai9tl9oG/syp+KNtYMeMbuuvmYX46DvpGgtlJ5dBC+6o+HLbxcS1T0JA5gJCJng==",
   "success": true,
   "projectFilePath": "C:\\Users\\Jose A. Genao\\Desktop\\proyects\\WebApi\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jose A. Genao\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Jose A. Genao\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Jose A. Genao\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Jose A. Genao\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Jose A. Genao\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Jose A. Genao\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

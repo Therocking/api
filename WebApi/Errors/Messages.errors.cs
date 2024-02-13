@@ -10,7 +10,7 @@ namespace WebApi.Errors
         {
             diccionarioErrores = new Dictionary<string, string>();
             diccionarioErrores.Add("USER_NOT_FOUND", "Usuario no encontrado.");
-            diccionarioErrores.Add("INVALID_PASSWORD", "Contraseña inválida.");
+            diccionarioErrores.Add("INCORRECT_PASSWORD", "Contraseña incorrecta.");
             diccionarioErrores.Add("INTERNAL_ERROR", "Internal error.");
         }
     }

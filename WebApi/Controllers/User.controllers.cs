@@ -16,20 +16,6 @@ namespace WebApi.Controllers
         {
             _service = userService;
         }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] RegisterUserDto registerDto)
-        {
-            try
-            {
-                var user = await _service.Create(registerDto);
-
-                return Ok(user);
-            }
-            catch (HandleErrors ex)
-            {
-                return StatusCode(ex.StatusCode, ex.Msg);
-            }
-        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

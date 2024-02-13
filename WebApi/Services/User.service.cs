@@ -16,34 +16,6 @@ namespace WebApi.Services
             _repository = repository;
         }
 
-        public  async Task<UserDto> Create(RegisterUserDto userDto)
-        {
-            try
-            {
-                var newUser = new User
-                {
-                    Name = userDto.Name,
-                    Email = userDto.Email,
-                    Age = userDto.Age,
-                    Password = userDto.Password,
-                };
-
-                await _repository.Create(newUser);
-
-                return new UserDto
-                {
-                    Id = newUser.Id,
-                    Name = newUser.Name,
-                    Email = newUser.Email,
-                    Age = newUser.Age,
-                };
-            }
-            catch (Exception)
-            {
-                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
-            }
-        }
-
         public async Task<UserDto> Delete(int id)
         {
             try

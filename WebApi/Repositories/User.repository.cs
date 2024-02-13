@@ -13,12 +13,6 @@ namespace WebApi.Repositories
             _db = db;
         }
 
-        public async Task Create(User user)
-        {
-            await _db.AddAsync(user);
-            await _db.SaveChangesAsync();
-        }
-
         public async Task Delete(User user)
         {
             _db.User.Remove(user);

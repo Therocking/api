@@ -32,14 +32,14 @@ namespace WebApi.Test
                 Password = registerUserDto.Password
             };
 
-            var repositoryMock = new Mock<IUserRepository>();
+            var repositoryMock = new Mock<IAuthRepository>();
             repositoryMock.Verify(x => x.Create(It.IsAny<User>()));
             //repositoryMock.Setup(repo => repo.Create(It.IsAny<User>())).ReturnsAsync(newUser);
 
-            var userService = new UserService(repositoryMock.Object);
+            var userService = new AuthService(repositoryMock.Object);
 
             // Act
-            var result = await userService.Create(registerUserDto);
+            var result = await userService.Register(registerUserDto);
 
             // Assert
             Assert.Equal(newUser.Id, result.Id);
