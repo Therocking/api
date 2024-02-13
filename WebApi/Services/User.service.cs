@@ -9,6 +9,7 @@ namespace WebApi.Services
     public class UserService: IUserService
     {
         private readonly IUserRepository _repository;
+        public readonly DiccionaryMsgErrors dicErrors = new DiccionaryMsgErrors(); 
 
         public UserService(IUserRepository repository)
         {
@@ -39,7 +40,7 @@ namespace WebApi.Services
             }
             catch (Exception)
             {
-                throw HandleErrors.InternalError("Internal error");
+                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
             }
         }
 
@@ -48,7 +49,7 @@ namespace WebApi.Services
             try
             {
                 var user = await _repository.GetById(id);
-                if (user is null) throw HandleErrors.NotFound("User not found");
+                if (user is null) throw HandleErrors.NotFound(dicErrors.diccionarioErrores["USER_NOT_FOUND"]);
 
                 await _repository.Delete(user);
 
@@ -64,7 +65,7 @@ namespace WebApi.Services
             {
                 if(ex is HandleErrors) throw;
 
-                throw HandleErrors.InternalError("Internal error");
+                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
             }
         }
 
@@ -78,7 +79,7 @@ namespace WebApi.Services
             }
             catch (Exception)
             {
-                throw HandleErrors.InternalError("Internal error");
+                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
             }
         }
 
@@ -87,7 +88,7 @@ namespace WebApi.Services
             try
             {
                 var user = await _repository.GetById(id);
-                if (user is null) throw HandleErrors.NotFound("User not found");
+                if (user is null) throw HandleErrors.NotFound(dicErrors.diccionarioErrores["USER_NOT_FOUND"]);
 
                 return new UserDto
                 {
@@ -101,7 +102,7 @@ namespace WebApi.Services
             {
                 if(ex is HandleErrors) throw;
 
-                throw HandleErrors.InternalError("Internal error");
+                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
             }
         }
 
@@ -110,7 +111,7 @@ namespace WebApi.Services
             try
             {
                 var user = await _repository.GetById(id);
-                if (user is null) throw HandleErrors.NotFound("User not found");
+                if (user is null) throw HandleErrors.NotFound(dicErrors.diccionarioErrores["USER_NOT_FOUND"]);
 
                 await _repository.Update(id, user);
 
@@ -126,7 +127,7 @@ namespace WebApi.Services
             {
                 if (ex is HandleErrors) throw;
 
-                throw HandleErrors.InternalError("Internal error");
+                throw HandleErrors.InternalError(dicErrors.diccionarioErrores["INTERNAL_ERROR"]);
             }
         }
     }

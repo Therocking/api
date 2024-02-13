@@ -2,10 +2,16 @@
 
 namespace WebApi.Errors
 {
-    public enum MsgErrors
+    public class DiccionaryMsgErrors
     {
-        USER_NOT_FOUND,
-        INTERNAL_ERROR,
-        EMPTY_FIELD
+        public Dictionary<string, string> diccionarioErrores;
+
+        public DiccionaryMsgErrors()
+        {
+            diccionarioErrores = new Dictionary<string, string>();
+            diccionarioErrores.Add("USER_NOT_FOUND", "Usuario no encontrado.");
+            diccionarioErrores.Add("INVALID_PASSWORD", "Contraseña inválida.");
+            diccionarioErrores.Add("INTERNAL_ERROR", "Internal error.");
+        }
     }
 }
