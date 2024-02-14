@@ -73,9 +73,5 @@ C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\Controlle
 C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\Controllers\appsettings.json
 C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\Castle.Core.dll
 C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\Moq.dll
-C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\xunit.abstractions.dll
-C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\xunit.assert.dll
-C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\xunit.core.dll
-C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\xunit.execution.dotnet.dll
 C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\obj\Debug\net8.0\WebApi.sourcelink.json
 C:\Users\Jose A. Genao\Desktop\proyects\WebApi\WebApi\bin\Debug\net8.0\BCrypt.Net-Next.dll
